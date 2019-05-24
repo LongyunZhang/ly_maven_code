@@ -1,9 +1,10 @@
 package com.util;
 
-public class LittleUtil {
+public class LetterUtil {
 
     /**
      * 获取String的编码类型
+     *
      * @param str
      * @return
      */

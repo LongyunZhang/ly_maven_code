@@ -22,14 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  流程：
- *
- *  创建httpclient实例
- *  创建httpmethod 方法实例: 最常用的是HttpGet,HttpPost 类
- *  httpclient 通过 execute方法  提交Get 或者Post 请求
- *  使用CloseableHttpResponse 来接受服务器返回的状态信息和实体信息
- *  关闭连接
- *
+ * 流程：
+ * <p>
+ * 创建httpclient实例
+ * 创建httpmethod 方法实例: 最常用的是HttpGet,HttpPost 类
+ * httpclient 通过 execute方法  提交Get 或者Post 请求
+ * 使用CloseableHttpResponse 来接受服务器返回的状态信息和实体信息
+ * 关闭连接
  */
 public class HttpUtil {
     public static void main(String[] args) throws Exception {
@@ -62,7 +61,7 @@ public class HttpUtil {
             HttpEntity entity1 = response1.getEntity();
             // do something useful with the response body
             // and ensure it is fully consumed
-            String content = EntityUtils.toString(entity1 , Consts.UTF_8); // 获取网页内容
+            String content = EntityUtils.toString(entity1, Consts.UTF_8); // 获取网页内容
             System.out.println(content);
 
             EntityUtils.consume(entity1);
@@ -104,10 +103,10 @@ public class HttpUtil {
         //URI uri = new URIBuilder().setScheme("http").setHost("http://www.baidu.com/").build();
         //HttpGet httpGet = new HttpGet(uri) ;   //使用Get方法提交
 
-        HttpGet httpGet = new HttpGet("https://www.taobao.com/") ;
+        HttpGet httpGet = new HttpGet("https://www.taobao.com/");
 
         //请求的参数配置，分别设置连接池获取连接的超时时间、连接上服务器的时间、服务器返回数据的时间
-        RequestConfig config=RequestConfig.custom()
+        RequestConfig config = RequestConfig.custom()
                 .setConnectionRequestTimeout(3000)
                 .setConnectTimeout(5000)
                 .setSocketTimeout(5000)
@@ -132,9 +131,9 @@ public class HttpUtil {
 
             int statusCode = response.getStatusLine().getStatusCode(); //服务器返回的状态
             HttpEntity entity = response.getEntity(); // 获取返回实体
-            String content = EntityUtils.toString(entity , Consts.UTF_8); // 获取网页内容
+            String content = EntityUtils.toString(entity, Consts.UTF_8); // 获取网页内容
             //判断返回的状态码是否是200 ，200 代表服务器响应成功，并成功返回信息
-            if(statusCode == HttpStatus.SC_OK){
+            if (statusCode == HttpStatus.SC_OK) {
                 //EntityUtils 获取返回的信息。官方不建议使用使用此类来处理信息——除非响应的实体来自于信任的Http服务器，并且知道它的长度
                 System.out.println("返回内容 --------" + content);
 
@@ -160,15 +159,15 @@ public class HttpUtil {
         //创建httpclient 实例
         CloseableHttpClient httpclient = HttpClients.createDefault();
         //创建post方法实例
-        HttpPost post = new HttpPost("http://host/.com") ;
+        HttpPost post = new HttpPost("http://host/.com");
 
         //封装提交到服务器的参数信息
-        List<NameValuePair> list = new ArrayList<NameValuePair>() ;
-        list.add(new BasicNameValuePair("name" ,"zhangsan"));
-        list.add(new BasicNameValuePair("age" ,"18"));
+        List<NameValuePair> list = new ArrayList<NameValuePair>();
+        list.add(new BasicNameValuePair("name", "zhangsan"));
+        list.add(new BasicNameValuePair("age", "18"));
 
         //构建表单
-        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(list , Consts.UTF_8) ;
+        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(list, Consts.UTF_8);
         //设置参数信息
         post.setEntity(formEntity);
 
@@ -176,15 +175,15 @@ public class HttpUtil {
         CloseableHttpResponse respone = httpclient.execute(post);
 
         try {
-            int statcode = respone.getStatusLine().getStatusCode() ;
+            int statcode = respone.getStatusLine().getStatusCode();
             String content = EntityUtils.toString(respone.getEntity(), Consts.UTF_8);
 
-            if(statcode == HttpStatus.SC_OK){
+            if (statcode == HttpStatus.SC_OK) {
                 System.out.println(content);
             } else {
                 throw new Exception("http请求返回码错误,statusCode : " + statcode);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             throw e;
         } finally {
             httpclient.close();
@@ -195,9 +194,9 @@ public class HttpUtil {
 
     //实际开发的话，我们对于每一种异常的抛出，catch里都需要做一些业务上的操作!!!!!
     public static void firstDemo() {
-        CloseableHttpClient httpClient=HttpClients.createDefault(); // 创建httpClient实例
+        CloseableHttpClient httpClient = HttpClients.createDefault(); // 创建httpClient实例
         HttpGet httpget = new HttpGet("http://www.open1111.com/"); // 创建httpget实例
-        CloseableHttpResponse response=null;
+        CloseableHttpResponse response = null;
         try {
             response = httpClient.execute(httpget);
         } catch (ClientProtocolException e) {  // http协议异常
@@ -210,7 +209,7 @@ public class HttpUtil {
 
         HttpEntity entity = response.getEntity(); // 获取返回实体
         try {
-            System.out.println("网页内容："+EntityUtils.toString(entity, "utf-8"));
+            System.out.println("网页内容：" + EntityUtils.toString(entity, "utf-8"));
         } catch (ParseException e) {  // 解析异常
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -229,7 +228,7 @@ public class HttpUtil {
     }
 
     //使用代理进行访问
-    public static void proxyDemo()throws Exception {
+    public static void proxyDemo() throws Exception {
         CloseableHttpClient httpClient = HttpClients.createDefault(); // 创建httpClient实例
         HttpGet httpGet = new HttpGet("https://www.taobao.com/"); // 创建httpget实例
 
@@ -239,7 +238,7 @@ public class HttpUtil {
         httpGet.setConfig(requestConfig);
 
         httpGet.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0");
-        CloseableHttpResponse response=httpClient.execute(httpGet); // 执行http get请求
+        CloseableHttpResponse response = httpClient.execute(httpGet); // 执行http get请求
 
         HttpEntity entity = response.getEntity(); // 获取返回实体
         System.out.println("------网页内容------：" + EntityUtils.toString(entity, "utf-8")); // 获取网页内容
@@ -251,7 +250,7 @@ public class HttpUtil {
         CloseableHttpClient httpClient = HttpClients.createDefault(); // 创建httpClient实例
         HttpGet httpGet = new HttpGet("http://www.google.com/"); //创建httpget实例
 
-        RequestConfig config=RequestConfig.custom()
+        RequestConfig config = RequestConfig.custom()
                 .setConnectTimeout(5000)
                 .setSocketTimeout(5000)
                 .build();
@@ -261,7 +260,7 @@ public class HttpUtil {
 
         CloseableHttpResponse response = httpClient.execute(httpGet); // 执行http get请求
         HttpEntity entity = response.getEntity(); // 获取返回实体
-        System.out.println("网页内容："+EntityUtils.toString(entity, "utf-8")); // 获取网页内容
+        System.out.println("网页内容：" + EntityUtils.toString(entity, "utf-8")); // 获取网页内容
         response.close(); // response关闭
         httpClient.close(); // httpClient关闭
     }
@@ -290,7 +289,6 @@ public class HttpUtil {
         CloseableHttpResponse res = httpclient.execute(get1, context);//111---共享上下文context
         System.out.println(EntityUtils.toString(res.getEntity()));
     }
-
 
 
 }

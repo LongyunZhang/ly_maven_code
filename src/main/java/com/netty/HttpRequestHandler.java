@@ -1,14 +1,3 @@
-/*******************************************************
- * Copyright (C) 2019 iQIYI.COM - All Rights Reserved
- *
- * This file is part of {cupid_3}.
- * Unauthorized copy of this file, via any medium is strictly prohibited.
- * Proprietary and Confidential.
- *
- * Date: 2019/5/24
- * Author(s): zhanglongyun<zhanglongyun@qiyi.com>
- *
- *******************************************************/
 package com.netty;
 
 import io.netty.buffer.Unpooled;
